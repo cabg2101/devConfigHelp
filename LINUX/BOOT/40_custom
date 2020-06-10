@@ -1,0 +1,314 @@
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+menuentry 'Windows Boot Manager (on /dev/nvme0n1p2)' --class windows --class os $menuentry_id_option 'osprober-efi-8444-0F08' {
+	insmod part_gpt
+	insmod fat
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root  8444-0F08
+	else
+	  search --no-floppy --fs-uuid --set=root 8444-0F08
+	fi
+	chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+}
+
+menuentry 'Manjaro Linux (20.0.3) (on /dev/sda5)' --class manjaro --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-a35413a9-72bf-439f-be3e-048a03d3b288' {
+	savedefault
+	load_video
+	set gfxpayload=keep
+	insmod gzio
+	insmod part_gpt
+	insmod ext2
+	set root='hd0,gpt5'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-ieee1275='ieee1275/(null)/sas/disk@0,gpt5' --hint-bios=hd0,gpt5 --hint-efi=hd0,gpt5 --hint-baremetal=ahci0,gpt5  a35413a9-72bf-439f-be3e-048a03d3b288
+	else
+	  search --no-floppy --fs-uuid --set=root a35413a9-72bf-439f-be3e-048a03d3b288
+	fi
+	linux	/boot/vmlinuz-5.6-x86_64 root=UUID=a35413a9-72bf-439f-be3e-048a03d3b288 rw  quiet apparmor=1 security=apparmor udev.log_priority=3
+	initrd	/boot/intel-ucode.img /boot/initramfs-5.6-x86_64.img
+}
+submenu 'Advanced options for Manjaro Linux (20.0.3) (on /dev/sda5)' $menuentry_id_option 'gnulinux-advanced-a35413a9-72bf-439f-be3e-048a03d3b288' {
+	menuentry 'Manjaro Linux (Kernel: 5.6.16-1-MANJARO x64)' --class manjaro --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.6.16-1-MANJARO x64-advanced-a35413a9-72bf-439f-be3e-048a03d3b288' {
+	savedefault
+		load_video
+		set gfxpayload=keep
+		insmod gzio
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt5'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-ieee1275='ieee1275/(null)/sas/disk@0,gpt5' --hint-bios=hd0,gpt5 --hint-efi=hd0,gpt5 --hint-baremetal=ahci0,gpt5  a35413a9-72bf-439f-be3e-048a03d3b288
+		else
+		  search --no-floppy --fs-uuid --set=root a35413a9-72bf-439f-be3e-048a03d3b288
+		fi
+		linux	/boot/vmlinuz-5.6-x86_64 root=UUID=a35413a9-72bf-439f-be3e-048a03d3b288 rw  quiet apparmor=1 security=apparmor udev.log_priority=3
+		initrd	/boot/intel-ucode.img /boot/initramfs-5.6-x86_64.img
+	}
+	menuentry 'Manjaro Linux (Kernel: 5.6.16-1-MANJARO x64 - fallback initramfs)' --class manjaro --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.6.16-1-MANJARO x64-fallback-a35413a9-72bf-439f-be3e-048a03d3b288' {
+		load_video
+		set gfxpayload=keep
+		insmod gzio
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt5'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-ieee1275='ieee1275/(null)/sas/disk@0,gpt5' --hint-bios=hd0,gpt5 --hint-efi=hd0,gpt5 --hint-baremetal=ahci0,gpt5  a35413a9-72bf-439f-be3e-048a03d3b288
+		else
+		  search --no-floppy --fs-uuid --set=root a35413a9-72bf-439f-be3e-048a03d3b288
+		fi
+		linux	/boot/vmlinuz-5.6-x86_64 root=UUID=a35413a9-72bf-439f-be3e-048a03d3b288 rw  quiet apparmor=1 security=apparmor udev.log_priority=3
+		initrd	/boot/initramfs-5.6-x86_64-fallback.img
+	}
+}
+
+menuentry 'Fedora 32 (Workstation Edition) (on /dev/sda6)' --class fedora --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-simple-d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d' {
+	insmod part_gpt
+	insmod ext2
+	set root='hd0,gpt6'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt6 --hint-efi=hd0,gpt6 --hint-baremetal=ahci0,gpt6  d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+	else
+	  search --no-floppy --fs-uuid --set=root d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+	fi
+	linux /boot/vmlinuz-0-rescue-bf09194a62b5455590816e5f6034ab01 root=/dev/sda6
+	initrd /boot/initramfs-0-rescue-bf09194a62b5455590816e5f6034ab01.img
+}
+submenu 'Advanced options for Fedora 32 (Workstation Edition) (on /dev/sda6)' $menuentry_id_option 'osprober-gnulinux-advanced-d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d' {
+	menuentry 'Fedora 32 (Workstation Edition) (on /dev/sda6)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-0-rescue-bf09194a62b5455590816e5f6034ab01--d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt6'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt6 --hint-efi=hd0,gpt6 --hint-baremetal=ahci0,gpt6  d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+		else
+		  search --no-floppy --fs-uuid --set=root d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+		fi
+		linux /boot/vmlinuz-0-rescue-bf09194a62b5455590816e5f6034ab01 root=/dev/sda6
+		initrd /boot/initramfs-0-rescue-bf09194a62b5455590816e5f6034ab01.img
+	}
+	menuentry 'Fedora 32 (Workstation Edition) (on /dev/sda6)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.6.19-300.fc32.x86_64--d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt6'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt6 --hint-efi=hd0,gpt6 --hint-baremetal=ahci0,gpt6  d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+		else
+		  search --no-floppy --fs-uuid --set=root d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+		fi
+		linux /boot/vmlinuz-5.6.19-300.fc32.x86_64 root=/dev/sda6
+		initrd /boot/initramfs-5.6.19-300.fc32.x86_64.img
+	}
+	menuentry 'Fedora 32 (Workstation Edition) (on /dev/sda6)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.6.6-300.fc32.x86_64--d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt6'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt6 --hint-efi=hd0,gpt6 --hint-baremetal=ahci0,gpt6  d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+		else
+		  search --no-floppy --fs-uuid --set=root d9152b4e-d2c7-4bc3-8a7d-0b77cd6a813d
+		fi
+		linux /boot/vmlinuz-5.6.6-300.fc32.x86_64 root=/dev/sda6
+		initrd /boot/initramfs-5.6.6-300.fc32.x86_64.img
+	}
+}
+
+menuentry 'elementary OS 5.1.5 Hera (5.1.5) (on /dev/sda7)' --class elementary --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-simple-0cb94a1c-5397-407e-a892-7e9e97582e57' {
+	insmod part_gpt
+	insmod ext2
+	set root='hd0,gpt7'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt7 --hint-efi=hd0,gpt7 --hint-baremetal=ahci0,gpt7  0cb94a1c-5397-407e-a892-7e9e97582e57
+	else
+	  search --no-floppy --fs-uuid --set=root 0cb94a1c-5397-407e-a892-7e9e97582e57
+	fi
+	linux /boot/vmlinuz-5.3.0-53-generic root=UUID=0cb94a1c-5397-407e-a892-7e9e97582e57 ro quiet splash $vt_handoff
+	initrd /boot/initrd.img-5.3.0-53-generic
+}
+submenu 'Advanced options for elementary OS 5.1.5 Hera (5.1.5) (on /dev/sda7)' $menuentry_id_option 'osprober-gnulinux-advanced-0cb94a1c-5397-407e-a892-7e9e97582e57' {
+	menuentry 'elementary (on /dev/sda7)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.3.0-53-generic--0cb94a1c-5397-407e-a892-7e9e97582e57' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt7'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt7 --hint-efi=hd0,gpt7 --hint-baremetal=ahci0,gpt7  0cb94a1c-5397-407e-a892-7e9e97582e57
+		else
+		  search --no-floppy --fs-uuid --set=root 0cb94a1c-5397-407e-a892-7e9e97582e57
+		fi
+		linux /boot/vmlinuz-5.3.0-53-generic root=UUID=0cb94a1c-5397-407e-a892-7e9e97582e57 ro quiet splash $vt_handoff
+		initrd /boot/initrd.img-5.3.0-53-generic
+	}
+	menuentry 'elementary, with Linux 5.3.0-53-generic (on /dev/sda7)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.3.0-53-generic--0cb94a1c-5397-407e-a892-7e9e97582e57' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt7'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt7 --hint-efi=hd0,gpt7 --hint-baremetal=ahci0,gpt7  0cb94a1c-5397-407e-a892-7e9e97582e57
+		else
+		  search --no-floppy --fs-uuid --set=root 0cb94a1c-5397-407e-a892-7e9e97582e57
+		fi
+		linux /boot/vmlinuz-5.3.0-53-generic root=UUID=0cb94a1c-5397-407e-a892-7e9e97582e57 ro quiet splash $vt_handoff
+		initrd /boot/initrd.img-5.3.0-53-generic
+	}
+	menuentry 'elementary, with Linux 5.3.0-53-generic (recovery mode) (on /dev/sda7)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.3.0-53-generic-root=UUID=0cb94a1c-5397-407e-a892-7e9e97582e57 ro recovery nomodeset-0cb94a1c-5397-407e-a892-7e9e97582e57' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt7'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt7 --hint-efi=hd0,gpt7 --hint-baremetal=ahci0,gpt7  0cb94a1c-5397-407e-a892-7e9e97582e57
+		else
+		  search --no-floppy --fs-uuid --set=root 0cb94a1c-5397-407e-a892-7e9e97582e57
+		fi
+		linux /boot/vmlinuz-5.3.0-53-generic root=UUID=0cb94a1c-5397-407e-a892-7e9e97582e57 ro recovery nomodeset
+		initrd /boot/initrd.img-5.3.0-53-generic
+	}
+}
+
+menuentry 'Linux Mint 20 Ulyana (20) (on /dev/sda8)' --class linuxmint --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-simple-979cc307-4dcf-4a50-bd07-b7f3380109e0' {
+	insmod part_gpt
+	insmod ext2
+	set root='hd0,gpt8'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt8 --hint-efi=hd0,gpt8 --hint-baremetal=ahci0,gpt8  979cc307-4dcf-4a50-bd07-b7f3380109e0
+	else
+	  search --no-floppy --fs-uuid --set=root 979cc307-4dcf-4a50-bd07-b7f3380109e0
+	fi
+	linux /boot/vmlinuz-5.4.0-26-generic root=UUID=979cc307-4dcf-4a50-bd07-b7f3380109e0 ro quiet splash
+	initrd /boot/initrd.img-5.4.0-26-generic
+}
+submenu 'Advanced options for Linux Mint 20 Ulyana (20) (on /dev/sda8)' $menuentry_id_option 'osprober-gnulinux-advanced-979cc307-4dcf-4a50-bd07-b7f3380109e0' {
+	menuentry 'Linux Mint 20 Cinnamon (on /dev/sda8)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.4.0-26-generic--979cc307-4dcf-4a50-bd07-b7f3380109e0' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt8'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt8 --hint-efi=hd0,gpt8 --hint-baremetal=ahci0,gpt8  979cc307-4dcf-4a50-bd07-b7f3380109e0
+		else
+		  search --no-floppy --fs-uuid --set=root 979cc307-4dcf-4a50-bd07-b7f3380109e0
+		fi
+		linux /boot/vmlinuz-5.4.0-26-generic root=UUID=979cc307-4dcf-4a50-bd07-b7f3380109e0 ro quiet splash
+		initrd /boot/initrd.img-5.4.0-26-generic
+	}
+	menuentry 'Linux Mint 20 Cinnamon, with Linux 5.4.0-26-generic (on /dev/sda8)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.4.0-26-generic--979cc307-4dcf-4a50-bd07-b7f3380109e0' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt8'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt8 --hint-efi=hd0,gpt8 --hint-baremetal=ahci0,gpt8  979cc307-4dcf-4a50-bd07-b7f3380109e0
+		else
+		  search --no-floppy --fs-uuid --set=root 979cc307-4dcf-4a50-bd07-b7f3380109e0
+		fi
+		linux /boot/vmlinuz-5.4.0-26-generic root=UUID=979cc307-4dcf-4a50-bd07-b7f3380109e0 ro quiet splash
+		initrd /boot/initrd.img-5.4.0-26-generic
+	}
+	menuentry 'Linux Mint 20 Cinnamon, with Linux 5.4.0-26-generic (recovery mode) (on /dev/sda8)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-5.4.0-26-generic-root=UUID=979cc307-4dcf-4a50-bd07-b7f3380109e0 ro recovery nomodeset-979cc307-4dcf-4a50-bd07-b7f3380109e0' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt8'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt8 --hint-efi=hd0,gpt8 --hint-baremetal=ahci0,gpt8  979cc307-4dcf-4a50-bd07-b7f3380109e0
+		else
+		  search --no-floppy --fs-uuid --set=root 979cc307-4dcf-4a50-bd07-b7f3380109e0
+		fi
+		linux /boot/vmlinuz-5.4.0-26-generic root=UUID=979cc307-4dcf-4a50-bd07-b7f3380109e0 ro recovery nomodeset
+		initrd /boot/initrd.img-5.4.0-26-generic
+	}
+}
+
+menuentry 'CentOS Linux 8 (Core) (on /dev/sda9)' --class centos --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-simple-227dada5-78e5-463e-9373-dde7be6b34a9' {
+	insmod part_gpt
+	insmod ext2
+	set root='hd0,gpt9'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt9 --hint-efi=hd0,gpt9 --hint-baremetal=ahci0,gpt9  227dada5-78e5-463e-9373-dde7be6b34a9
+	else
+	  search --no-floppy --fs-uuid --set=root 227dada5-78e5-463e-9373-dde7be6b34a9
+	fi
+	linux /boot/vmlinuz-0-rescue-8d700a59ff6f4ba7bc7113083a48889e root=/dev/sda9
+	initrd /boot/initramfs-0-rescue-8d700a59ff6f4ba7bc7113083a48889e.img
+}
+submenu 'Advanced options for CentOS Linux 8 (Core) (on /dev/sda9)' $menuentry_id_option 'osprober-gnulinux-advanced-227dada5-78e5-463e-9373-dde7be6b34a9' {
+	menuentry 'CentOS Linux 8 (Core) (on /dev/sda9)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-0-rescue-8d700a59ff6f4ba7bc7113083a48889e--227dada5-78e5-463e-9373-dde7be6b34a9' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt9'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt9 --hint-efi=hd0,gpt9 --hint-baremetal=ahci0,gpt9  227dada5-78e5-463e-9373-dde7be6b34a9
+		else
+		  search --no-floppy --fs-uuid --set=root 227dada5-78e5-463e-9373-dde7be6b34a9
+		fi
+		linux /boot/vmlinuz-0-rescue-8d700a59ff6f4ba7bc7113083a48889e root=/dev/sda9
+		initrd /boot/initramfs-0-rescue-8d700a59ff6f4ba7bc7113083a48889e.img
+	}
+	menuentry 'CentOS Linux 8 (Core) (on /dev/sda9)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-4.18.0-193.6.3.el8_2.x86_64--227dada5-78e5-463e-9373-dde7be6b34a9' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt9'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt9 --hint-efi=hd0,gpt9 --hint-baremetal=ahci0,gpt9  227dada5-78e5-463e-9373-dde7be6b34a9
+		else
+		  search --no-floppy --fs-uuid --set=root 227dada5-78e5-463e-9373-dde7be6b34a9
+		fi
+		linux /boot/vmlinuz-4.18.0-193.6.3.el8_2.x86_64 root=/dev/sda9
+		initrd /boot/initramfs-4.18.0-193.6.3.el8_2.x86_64.img
+	}
+}
+
+menuentry 'Arch Linux (on /dev/sda10)' --class arch --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-simple-c9368fce-1b76-4b1f-b1f9-519b61ab79df' {
+	insmod part_gpt
+	insmod ext2
+	set root='hd0,gpt10'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt10 --hint-efi=hd0,gpt10 --hint-baremetal=ahci0,gpt10  c9368fce-1b76-4b1f-b1f9-519b61ab79df
+	else
+	  search --no-floppy --fs-uuid --set=root c9368fce-1b76-4b1f-b1f9-519b61ab79df
+	fi
+	linux /boot/vmlinuz-linux root=UUID=c9368fce-1b76-4b1f-b1f9-519b61ab79df rw loglevel=3 quiet
+	initrd /boot/intel-ucode.img
+}
+submenu 'Advanced options for Arch Linux (on /dev/sda10)' $menuentry_id_option 'osprober-gnulinux-advanced-c9368fce-1b76-4b1f-b1f9-519b61ab79df' {
+	menuentry 'Arch Linux (on /dev/sda10)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-linux--c9368fce-1b76-4b1f-b1f9-519b61ab79df' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt10'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt10 --hint-efi=hd0,gpt10 --hint-baremetal=ahci0,gpt10  c9368fce-1b76-4b1f-b1f9-519b61ab79df
+		else
+		  search --no-floppy --fs-uuid --set=root c9368fce-1b76-4b1f-b1f9-519b61ab79df
+		fi
+		linux /boot/vmlinuz-linux root=UUID=c9368fce-1b76-4b1f-b1f9-519b61ab79df rw loglevel=3 quiet
+		initrd /boot/intel-ucode.img
+	}
+	menuentry 'Arch Linux, with Linux linux (on /dev/sda10)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-linux--c9368fce-1b76-4b1f-b1f9-519b61ab79df' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt10'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt10 --hint-efi=hd0,gpt10 --hint-baremetal=ahci0,gpt10  c9368fce-1b76-4b1f-b1f9-519b61ab79df
+		else
+		  search --no-floppy --fs-uuid --set=root c9368fce-1b76-4b1f-b1f9-519b61ab79df
+		fi
+		linux /boot/vmlinuz-linux root=UUID=c9368fce-1b76-4b1f-b1f9-519b61ab79df rw loglevel=3 quiet
+		initrd /boot/intel-ucode.img
+	}
+	menuentry 'Arch Linux, with Linux linux (fallback initramfs) (on /dev/sda10)' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/boot/vmlinuz-linux--c9368fce-1b76-4b1f-b1f9-519b61ab79df' {
+		insmod part_gpt
+		insmod ext2
+		set root='hd0,gpt10'
+		if [ x$feature_platform_search_hint = xy ]; then
+		  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt10 --hint-efi=hd0,gpt10 --hint-baremetal=ahci0,gpt10  c9368fce-1b76-4b1f-b1f9-519b61ab79df
+		else
+		  search --no-floppy --fs-uuid --set=root c9368fce-1b76-4b1f-b1f9-519b61ab79df
+		fi
+		linux /boot/vmlinuz-linux root=UUID=c9368fce-1b76-4b1f-b1f9-519b61ab79df rw loglevel=3 quiet
+		initrd /boot/initramfs-linux-fallback.img
+	}
+}
+
+set timeout_style=menu
+if [ "${timeout}" = 0 ]; then
+  set timeout=10
+fi

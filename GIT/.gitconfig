@@ -1,0 +1,65 @@
+# Global configuration for WSL.
+
+[alias]
+	br = branch
+	ci = commit
+	co = checkout
+	dt = difftool
+	ft = fetch --all --prune
+	st = status
+	mt = mergetool
+	rb = rebase
+	su = submodule update --init --recursive
+	suf = submodule update --init --recursive --force
+	suc = submodule foreach --recursive git clean -ffdx
+	sur = submodule foreach --recursive git reset --hard
+	sufc = !sh -c 'git suc && git sur && git suf'
+	stage = add
+	unstage = reset HEAD --
+	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+	last = log -1 HEAD
+	flb = "!f() { git br -l --list *$1* ; }; f"                            # Find branch (local)
+	frb = "!f() { git br -r --list *$1* ; }; f"                            # Find branch (remote)
+	col = "!f() { git co $(git flb *$1*) ; }; f"                           # Checkout branch (local)
+	cor = "!f() { git co --track $(git frb *$1*) ; }; f"                   # Checkout branch (remote)
+	crl = "!f() { git co -b $1 ; }; f"                                     # Create branch (local)
+	crr = "!f() { git push --set-upstream origin $(git flb *$1*) ; }; f"   # Create branch (remote)
+	dlb = "!f() { git br -D $(git flb *$1*) ; }; f"                        # Delete branch (local)
+	drb = "!f() { git push origin --delete $(git flb *$1*) ; }; f"         # Delete branch (remote)
+	rbc = "!f() { git rb --continue ; }; f"
+	rbi = "!f() { git rb -i $(git flb *$1*) ; }; f"                        # Rebase branch (interactive)
+	rst = "!f() { git reset --hard ; git clean -ffdx ; }; f"
+	rstAll = "!f() { git rst ; git sur ; git suc ; git su ; }; f"
+	findCommit = "!f() { git log $1 --decorate | grep -E -i -w '$2|tag:' ; }; f"
+	updtContrib = "!f() { cd contrib/$1 ; git col $2 ; cd ../.. ; }; f"
+[cola]
+	theme = flat-dark-grey
+	icontheme = light
+[color]
+	ui = true
+[commit]
+	gpgsign = true
+[core]
+	safecrlf = false
+	editor = '/mnt/c/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
+	# editor = 'C:/Program Files (x86)/Brackets/Brackets.exe'
+[credential]
+	helper = cache --timeout=86400
+[diff]
+    tool = bc
+[difftool "sourcetree"]
+    cmd = '' \"$LOCAL\" \"$REMOTE\"
+[gpg]
+	program = gpg2
+[merge]
+    tool = p4merge
+[mergetool "p4merge"]
+    path = '/mnt/c/Program Files/Perforce/p4merge.exe'
+[pull]
+	rebase = false
+[push]
+	default = simple
+[user]
+	name = <username>
+	email = <username>@<second_level_domain>.<top_level_domain>
+	signingkey = <gpg_public_key>
